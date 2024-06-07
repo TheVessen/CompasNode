@@ -1,9 +1,7 @@
 from typing import Union
-from fastapi import FastAPI, Body
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from compas.geometry import Point
-from pydantic import BaseModel
-from backend.api.routes.base import router as base_router
+from api.routes.geometry.geometry_route import router as base_router;
 
 app = FastAPI()
 
