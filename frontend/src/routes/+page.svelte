@@ -1,2 +1,12 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+	import { fetchData } from '$lib';
+	import { onMount } from 'svelte';
+
+	let data;
+
+	onMount(async () => {
+		data = await fetchData();
+
+		console.log(data);
+	});
+</script>
