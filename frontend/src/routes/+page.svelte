@@ -1,12 +1,11 @@
-<script>
-	import { fetchData } from '$lib';
+<script lang="ts">
+	import geometry from '$lib/index';
 	import { onMount } from 'svelte';
 
-	let data;
-
 	onMount(async () => {
-		data = await fetchData();
-
-		console.log(data);
+		const point = await geometry.createPoint(0, 0, 0);
+		const vector = await geometry.createVector(0, 0, 10);
+		const line = await geometry.createLineDirection(point, vector, 20);
+		console.log(line);
 	});
 </script>

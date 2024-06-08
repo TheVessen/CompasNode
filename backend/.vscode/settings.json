@@ -1,8 +1,6 @@
-// {
-//   "terminal.integrated.defaultProfile.windows": "Bash",
-//   "terminal.integrated.profiles.windows": {
-//     "Bash": {
-//       "path": "C:\\Program Files\\Git\\bin\\bash.exe"
-//     }
-//   }
-// }
+{
+  "files.exclude": {
+    "**/__pycache__": true
+  },
+  "python.analysis.typeCheckingMode": "basic"
+}
