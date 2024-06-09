@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, HTTPException
 from ...services.geometry.geometry_service import *
 from compas.geometry import (
     Point as CPoint,
@@ -12,7 +12,6 @@ point_router = APIRouter(
 )
 
 
-# Create Point
 @point_router.post("/create")
 def create(
     point: Coordinates = Body(..., description="The coordinates of the point.")

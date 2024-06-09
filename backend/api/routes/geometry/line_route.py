@@ -12,7 +12,7 @@ line_router = APIRouter(
 )
 
 
-@line_router.post("/create-line-from-points")
+@line_router.post("/create-from-points")
 def create_line_from_points_route(
     point1: Point = Body(...),
     point2: Point = Body(...),
@@ -21,7 +21,7 @@ def create_line_from_points_route(
     return create_line_from_points(point1, point2, name)
 
 
-@line_router.post("/create-line-from-direction")
+@line_router.post("/create-from-direction")
 def create_line_from_direction_route(
     point: Point = Body(...),
     direction: Vector = Body(...),
