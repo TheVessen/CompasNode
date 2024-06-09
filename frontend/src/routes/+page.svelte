@@ -10,12 +10,14 @@
 		BaseAPI.logging = false;
 
 		const point = await PointAPI.createPoint({ x: 0, y: 0, z: 6 });
-		const point2 = await VectorAPI.createVector({ x: 500, y: 500, z: 0 });
-		const v = await VectorAPI.createVector({ x: 0, y: 0, z: 200 });
+		const point2 = await VectorAPI.createVector({ x: 0, y: 500, z: 0 });
+		const v = await VectorAPI.createVector({ x: 0, y: 0, z: 500 });
 		const line = await LineAPI.createLineFromPoints(point, point2);
 		const mesh = await MeshAPI.createMeshFromExtrusion(v, line);
 
 		let { camera, controls, scene } = initThree(canvas);
+
+		console.log(mesh);
 
 		scene.add(mesh);
 	});

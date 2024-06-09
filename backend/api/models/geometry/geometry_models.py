@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional, Tuple, List
+from compas.geometry import Point as CPoint, Vector as CVector, Line as CLine
 
 
 from pydantic import BaseModel, Field
@@ -41,6 +42,9 @@ class Point(BaseModel):
             "name": {"type_error": "name must be a string."},
         }
 
+    def to_compas(self):
+        return CPoint(*self.data, name=self.name)
+
 
 class Vector(BaseModel):
     data: Tuple[float, float, float] = Field(
@@ -58,12 +62,13 @@ class Vector(BaseModel):
             "name": {"type_error": "name must be a string."},
         }
 
+    def to_compas(self):
+        return CVector(*self.data, name=self.name)
+
 
 class Plane(BaseModel):
-    a: float
-    b: float
-    c: float
-    d: float
+    point: Point
+    normal: Vector
     name: Optional[str] = None
 
     class Config:
@@ -98,3 +103,6 @@ class Line(BaseModel):
             "data": {"type_error": "data must be an instance of LineData."},
             "guid": {"type_error": "guid must be a string."},
         }
+
+    def to_compas(self):
+        return CLine(self.data.start, self.data.end, name=self.guid)
