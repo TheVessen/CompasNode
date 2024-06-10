@@ -179,3 +179,17 @@ def line_closest_point(line: CLine, point: Point):
     # TODO: Return the parameter of the closest point as well
 
     return NotImplementedError
+
+
+def line_divide_by_count(line: CLine, count: int):
+    """
+    Checks if a point is on a line.
+
+    Args:
+        line (CLine): The line to check.
+        point (Point): The point to check.
+
+    Returns:
+        bool: True if the point is on the line, False otherwise.
+    """
+    return NotImplementedError
