@@ -4,7 +4,7 @@ from ...models.geometry.geometry_models import Point, Coordinates
 
 point_router = APIRouter(
     prefix="/geometry/point",
-    tags=["geometry", "point"],
+    tags=["point"],
     responses={404: {"description": "Not found"}},
 )
 

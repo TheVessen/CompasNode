@@ -7,7 +7,7 @@ from ...models.geometry.geometry_models import Point, Vector, Coordinates
 
 vector_router = APIRouter(
     prefix="/geometry/vector",
-    tags=["geometry, vector"],
+    tags=["vector"],
     responses={404: {"description": "Not found"}},
 )
 

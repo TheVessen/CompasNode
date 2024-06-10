@@ -7,6 +7,6 @@ from ...models.geometry.geometry_models import Point, Vector, Coordinates
 
 plane_router = APIRouter(
     prefix="/geometry/plane",
-    tags=["geometry, plane"],
+    tags=["plane"],
     responses={404: {"description": "Not found"}},
 )
