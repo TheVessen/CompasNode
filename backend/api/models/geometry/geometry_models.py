@@ -1,6 +1,11 @@
 from pydantic import BaseModel
 from typing import Optional, Tuple, List
-from compas.geometry import Point as CPoint, Vector as CVector, Line as CLine
+from compas.geometry import (
+    Point as CPoint,
+    Vector as CVector,
+    Line as CLine,
+    Plane as CPlane,
+)
 
 
 from pydantic import BaseModel, Field
@@ -73,12 +78,13 @@ class Plane(BaseModel):
 
     class Config:
         error_messages = {
-            "a": {"type_error": "a must be a number."},
-            "b": {"type_error": "b must be a number."},
-            "c": {"type_error": "c must be a number."},
-            "d": {"type_error": "d must be a number."},
+            "point": {"type_error": "point must be an instance of Point."},
+            "normal": {"type_error": "normal must be an instance of Vector."},
             "name": {"type_error": "name must be a string."},
         }
+
+    def to_compas(self):
+        return CPlane(self.point.to_compas(), self.normal.to_compas(), name=self.name)
 
 
 class LineData(BaseModel):
