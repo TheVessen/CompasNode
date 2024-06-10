@@ -1,6 +1,7 @@
 from ...models.geometry.geometry_models import Point, Vector
 from typing import Optional
 from compas.geometry import Line as CLine, Polyline as CPolyline, Point as CPoint
+from typing import Tuple, Union
 
 ###############
 # Line Creation
@@ -164,7 +165,9 @@ def point_at_length(line: CLine, length: float) -> str:
     return point.to_jsonstring()
 
 
-def line_closest_point(line: CLine, point: Point):
+def line_closest_point(
+    line: CLine, point: Point, return_parameter=False
+) -> Union[str, Tuple[str, float]]:
     """
     Returns the closest point on a line to a given point.
 
@@ -175,10 +178,14 @@ def line_closest_point(line: CLine, point: Point):
     Returns:
         str: The closest point on the line represented as a JSON string.
     """
-    closest_point = line.closest_point(point.to_compas())
-    # TODO: Return the parameter of the closest point as well
-
-    return NotImplementedError
+    closest_point, parameter = line.closest_point(
+        point.to_compas(), return_parameter=True
+    )
+    # type: (CPoint, float)
+    # TODO: fix return type
+    if return_parameter:
+        return closest_point, parameter
+    return closest_point.to_jsonstring()
 
 
 def line_divide_by_count(line: CLine, count: int):

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Body
-from ...services.geometry.geometry_service import *
+from ...services.geometry.vector_service import *
 from compas.geometry import (
     Vector as CVector,
 )

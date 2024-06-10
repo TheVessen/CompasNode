@@ -41,10 +41,25 @@ export default abstract class BaseAPI {
             if (this.loggingEnabled) {
                 console.log(`API call to ${subPath}/${endpoint} took ${endTime - startTime} ms`);
             }
+            return response.data;
+        } catch (error) {
+            this.handleError(error as AxiosError);
+        }
+    }
+
+    protected static async callApiAndParse(subPath: string, endpoint: string, data: any): Promise<any> {
+        try {
+            const startTime = Date.now();
+            const response = await this.axiosInstance.post(`${subPath}/${endpoint}`, data);
+            const endTime = Date.now();
+            if (this.loggingEnabled) {
+                console.log(`API call to ${subPath}/${endpoint} took ${endTime - startTime} ms`);
+            }
             return JSON.parse(response.data);
         } catch (error) {
             this.handleError(error as AxiosError);
         }
     }
+
 }
 

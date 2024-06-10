@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Body
-from ...services.geometry.curve_service import *
+from ...services.geometry.plane_service import *
 from compas.geometry import (
-    Curve as CCurve,
+    Vector as CVector,
 )
 from ...models.geometry.geometry_models import Point, Vector, Coordinates
 
-curve_router = APIRouter(
-    prefix="/geometry/curve",
-    tags=["geometry, curve"],
+plane_router = APIRouter(
+    prefix="/geometry/plane",
+    tags=["geometry, plane"],
     responses={404: {"description": "Not found"}},
 )

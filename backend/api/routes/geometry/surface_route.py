@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Body
-from ...services.geometry.geometry_service import *
+from ...services.geometry.surface_service import *
 from compas.geometry import (
     Point as CPoint,
 )

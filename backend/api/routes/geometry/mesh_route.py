@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Body
-from ...services.geometry.geometry_service import *
+from ...services.geometry.mesh_service import *
 from compas.geometry import (
     Vector as CVector,
 )
@@ -10,13 +10,3 @@ mesh_router = APIRouter(
     tags=["geometry, mesh"],
     responses={404: {"description": "Not found"}},
 )
-
-
-@mesh_router.post(
-    "/extrude-line",
-)
-def extrude_line_route(
-    vector: Vector = Body(...),
-    line: Line = Body(...),
-):
-    return extrude_line(line, vector)
