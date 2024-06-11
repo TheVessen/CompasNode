@@ -9,6 +9,11 @@ point_router = APIRouter(
 )
 
 
+@point_router.get("/", response_model=str)
+def read_root() -> str:
+    return CPoint(0, 0, 0).to_jsonstring()
+
+
 @point_router.post("/create", response_model=str)
 def create(point: Coordinates) -> str:
     try:
@@ -63,3 +68,6 @@ def distance(point1: Point = Body(...), point2: Point = Body(...)) -> float:
         return distance_value
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+# NOTE: implemented till here in ts

@@ -5,6 +5,11 @@ import type { Coordinates, Point } from '../types';
 export default class PointAPI extends BaseAPI {
     private static readonly subPath = 'geometry/point';
 
+    //TODO: test if this actually works
+    public static async test() {
+        return this.callApiAndParse(this.subPath, '/', {});
+    }
+
     public static async createPoint(point: Coordinates): Promise<Point> {
         return this.callApiAndParse(this.subPath, 'create', point);
     }
