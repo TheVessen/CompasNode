@@ -112,3 +112,20 @@ class Line(BaseModel):
 
     def to_compas(self):
         return CLine(self.data.start, self.data.end, name=self.guid)
+
+
+class PointData(BaseModel):
+    points: List[List[float]]
+
+
+class Polyline(BaseModel):
+    dtype: str
+    data: PointData
+    guid: str
+
+    class Config:
+        error_messages = {
+            "dtype": {"type_error": "dtype must be a string."},
+            "data": {"type_error": "data must be an instance of PointData."},
+            "guid": {"type_error": "guid must be a string."},
+        }

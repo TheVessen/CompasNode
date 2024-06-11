@@ -6,7 +6,7 @@ from compas.geometry import (
 from ...models.geometry.geometry_models import Point, Vector, Coordinates
 
 surface_router = APIRouter(
-    prefix="/geometry/point",
+    prefix="/geometry/surface",
     tags=["point"],
     responses={404: {"description": "Not found"}},
 )
@@ -16,3 +16,15 @@ surface_router = APIRouter(
 @surface_router.post("/")
 def read_root():
     return "Surface Router not implemented yet."
+
+
+@surface_router.post("/extrude_line")
+def r_extrude_line(line: Line = Body(...), vector: Vector = Body(...)) -> str:
+    return extrude_line(line, vector)
+
+
+@surface_router.post("/extrude_polyline")
+def r_extrude_polyline(
+    polyline: Polyline = Body(...), vector: Vector = Body(...)
+) -> str:
+    return extrude_polyline(polyline, vector)

@@ -66,3 +66,9 @@ export type ApiConfig = {
     apiKey: string;
     host: string;
 };
+
+export type Polyline = {
+    points: [number, number, number][];
+    dtype: string;
+    guid: string;
+};

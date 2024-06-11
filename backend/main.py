@@ -31,6 +31,7 @@ def create_app() -> FastAPI:
     app.include_router(curve_router)
     app.include_router(surface_router)
     app.include_router(line_router)
+    app.include_router(polyline_router)
 
     return app
 
