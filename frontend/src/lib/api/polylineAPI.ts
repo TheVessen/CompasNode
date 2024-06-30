@@ -11,7 +11,6 @@ export default class PolylineAPI extends BaseAPI {
      * @returns {Promise<Point>} A promise that resolves to the created polyline.
      */
     public static async createPolyline(points: Point[]): Promise<Polyline> {
-        console.log(points);
         return this.callApiAndParse(this.subPath, 'create', points);
     }
 }

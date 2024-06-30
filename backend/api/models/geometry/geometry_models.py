@@ -129,3 +129,7 @@ class Polyline(BaseModel):
             "data": {"type_error": "data must be an instance of PointData."},
             "guid": {"type_error": "guid must be a string."},
         }
+
+
+class PolylineInput(BaseModel):
+    polylines: List[Polyline]

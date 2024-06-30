@@ -1,14 +1,17 @@
-// src/api/baseAPI.ts
-import type { FaceData, VertexData } from '$lib/types';
 import axios, { AxiosError, type AxiosInstance } from 'axios';
-import * as THREE from 'three';
 
 export default abstract class BaseAPI {
     protected static axiosInstance: AxiosInstance;
     protected static basePath: string;
     protected static loggingEnabled: boolean = false;
 
+    /**
+     * The base URL of the API server.
+     */
     public static set host(value: string) {
+        if (value === "") {
+            throw new Error('Host address cannot be empty');
+        }
         this.axiosInstance = axios.create({
             baseURL: value,
             headers: {
@@ -18,14 +21,31 @@ export default abstract class BaseAPI {
         });
     }
 
+    /**
+     * Sets the API key used for authorization.
+     * @param value - The API key value.
+     */
     public static set apiKey(value: string) {
+
         this.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${value}`;
     }
 
+    /**
+     * Enables or disables logging for the API.
+     * @param value - A boolean value indicating whether logging should be enabled or disabled.
+     */
     public static set logging(value: boolean) {
         this.loggingEnabled = value;
     }
 
+    /**
+     * Handles the error thrown by Axios during API requests.
+     * If the error has a response, it logs the response data.
+     * If the error does not have a response, it logs the request data.
+     * Finally, it rethrows the error.
+     * 
+     * @param error - The Axios error object.
+     */
     protected static handleError(error: AxiosError): void {
         if (error.response) {
             console.error('Response error details:', error.response.data);
@@ -35,6 +55,13 @@ export default abstract class BaseAPI {
         throw error;
     }
 
+    /**
+     * Makes an API call to the specified endpoint.
+     * @param subPath - The subpath of the API endpoint.
+     * @param endpoint - The endpoint to call.
+     * @param data - The data to send with the API call.
+     * @returns A Promise that resolves to the response data from the API call.
+     */
     protected static async callApi(subPath: string, endpoint: string, data: any): Promise<any> {
         try {
             const startTime = Date.now();
@@ -49,6 +76,14 @@ export default abstract class BaseAPI {
         }
     }
 
+    /**
+     * Calls the API endpoint and parses the response.
+     * 
+     * @param subPath - The subpath of the API endpoint.
+     * @param endpoint - The endpoint of the API.
+     * @param data - The data to be sent with the API request.
+     * @returns A Promise that resolves to the parsed response from the API.
+     */
     protected static async callApiAndParse(subPath: string, endpoint: string, data: any): Promise<any> {
         try {
             const startTime = Date.now();
@@ -62,49 +97,5 @@ export default abstract class BaseAPI {
             this.handleError(error as AxiosError);
         }
     }
-
-    protected static createMesh(faceData: FaceData, vertexData: VertexData): THREE.Mesh {
-        const vertices: number[] = [];
-        const indices: number[] = [];
-
-        for (const key in vertexData) {
-            const vertex = vertexData[key];
-            if (vertex) {
-                vertices.push(vertex.x, vertex.y, vertex.z);
-            }
-        }
-
-        for (const key in faceData) {
-            const face = faceData[key];
-            indices.push(face[0], face[1], face[2]);
-            indices.push(face[2], face[3], face[0]);
-        }
-
-        return this.verticesToThreeMesh(vertices, indices);
-    }
-
-    private static verticesToThreeMesh(vertices: number[], indices: number[]): THREE.Mesh {
-        const floatVertices = new Float32Array(vertices);
-        const floatFaceIndices = new Uint32Array(indices);
-        const geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(floatVertices, 3));
-        geometry.setIndex(new THREE.BufferAttribute(floatFaceIndices, 1));
-        geometry.computeVertexNormals();
-
-        const material = new THREE.MeshPhysicalMaterial({
-            clearcoat: 1,
-            clearcoatRoughness: 0.4,
-            side: THREE.DoubleSide,
-            depthTest: true,
-            depthWrite: true,
-        });
-
-        const mesh = new THREE.Mesh(geometry, material);
-        mesh.receiveShadow = true;
-        mesh.castShadow = true;
-        return mesh;
-    }
-
-
 }
 
