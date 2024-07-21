@@ -38,7 +38,7 @@
 		const polyLine1 = await PolylineAPI.createPolyline(pointlist);
 		const polyLine2 = await PolylineAPI.createPolyline(pointlist2);
 
-		SurfaceAPI.loftCurves([polyLine1, polyLine2]);
+		const s = await SurfaceAPI.loftCurves([polyLine1, polyLine2]);
 
 		const response = await SurfaceAPI.extrudePolyline(polyLine1, vec);
 		console.log(response);

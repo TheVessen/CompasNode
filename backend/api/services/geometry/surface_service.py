@@ -5,13 +5,12 @@ from compas.geometry import (
     NurbsCurve,
     Polyline as CPolyline,
 )
-from compas_occ.geometry import OCCNurbsSurface, OCCRevolutionSurface
+from compas_occ.geometry import OCCNurbsSurface
 from compas_occ.geometry import OCCNurbsCurve
 from compas_occ.brep import Brep
 from compas.geometry import Curve
 import json
 from typing import List
-from .geometry_base_service import convert_to_surface_response
 
 
 def extrude_line(line: Line, vector: Vector) -> OCCNurbsSurface:
@@ -40,5 +39,5 @@ def loft(polyline: List[Polyline]) -> str:
 
         vect = CVector(0, 0, 100)
 
-    brep = Brep.from_extrusion(curves[0], vect)
-    return brep.to_jsonstring()
+    resBrep = Brep.from_loft(curves)
+    return resBrep.to_jsonstring()
