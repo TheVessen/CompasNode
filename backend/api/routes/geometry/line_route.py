@@ -7,7 +7,7 @@ from ...models.geometry.geometry_models import Point, Vector, Coordinates
 
 line_router = APIRouter(
     prefix="/geometry/line",
-    tags=["geometry, line"],
+    tags=["line"],
     responses={404: {"description": "Not found"}},
 )
 

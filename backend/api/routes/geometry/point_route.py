@@ -1,26 +1,73 @@
 from fastapi import APIRouter, Body, HTTPException
-from ...services.geometry.geometry_service import *
-from compas.geometry import Point as CPoint, Plane as CPlane
-from ...models.geometry.geometry_models import Point, Vector, Coordinates, Plane
+from compas.geometry import Point as CPoint
+from ...models.geometry.geometry_models import Point, Coordinates
 
 point_router = APIRouter(
     prefix="/geometry/point",
-    tags=["geometry, point"],
+    tags=["point"],
     responses={404: {"description": "Not found"}},
 )
 
 
-@point_router.post("/create")
-def create(
-    point: Coordinates = Body(..., description="The coordinates of the point.")
-) -> str:
-    return CPoint(point.x, point.y, point.z, point.name).to_jsonstring()
+@point_router.get("/", response_model=str)
+def read_root() -> str:
+    return CPoint(0, 0, 0).to_jsonstring()
 
 
-# @point_router.post("/")
-# def project_on_plane(
-#     point: Point = Body(..., description="The point to project."),
-#     plane: Plane = Body(..., description="The plane to project the point on."),
-# ) -> str:
-#     c_point = point.to_compas()
-#     c_Plane = CPlane()
+@point_router.post("/create", response_model=str)
+def create(point: Coordinates) -> str:
+    try:
+        compas_point = CPoint(point.x, point.y, point.z)
+        return compas_point.to_jsonstring()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@point_router.post("/add", response_model=str)
+def add(point1: Point, point2: Point) -> str:
+    try:
+        result_point = point1.to_compas() + point2.to_compas()
+        return result_point.to_jsonstring()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@point_router.post("/subtract", response_model=str)
+def subtract(point1: Point, point2: Point) -> str:
+    try:
+        result_point = point1.to_compas() - point2.to_compas()
+        return result_point.to_jsonstring()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@point_router.post("/multiply", response_model=str)
+def multiply(point: Point = Body(...), factor: float = Body(...)) -> str:
+    try:
+        result_point = point.to_compas() * factor
+        return result_point.to_jsonstring()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@point_router.post("/divide", response_model=str)
+def divide(point: Point = Body(...), factor: float = Body(...)) -> str:
+    if factor == 0:
+        raise HTTPException(status_code=400, detail="Division by zero is not allowed.")
+    try:
+        result_point = point.to_compas() / factor
+        return result_point.to_jsonstring()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@point_router.post("/distance_to_point", response_model=float)
+def distance(point1: Point = Body(...), point2: Point = Body(...)) -> float:
+    try:
+        distance_value = point1.to_compas().distance_to_point(point2.to_compas())
+        return distance_value
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+# NOTE: implemented till here in ts
